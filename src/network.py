@@ -3,12 +3,15 @@ import torch.nn as nn
 from torch.autograd import Variable
 import numpy as np
 
-class Conv2d(nn.Module):
+class Conv2d(nn.Module): # wrapper over regular nn.Conv2d with BatchNorm and ReLu
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, relu=True, same_padding=False, bn=False):
         super(Conv2d, self).__init__()
-        padding = int((kernel_size - 1) / 2) if same_padding else 0
+        padding = int((kernel_size - 1) / 2) if same_padding else 0 # border thickness
+        # regular nn.Conv2d
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding=padding)
+        # Normalizes the values for each channel to speed up training.
         self.bn = nn.BatchNorm2d(out_channels, eps=0.001, momentum=0, affine=True) if bn else None
+        # ReLu for each density map
         self.relu = nn.ReLU(inplace=True) if relu else None
 
     def forward(self, x):

@@ -6,7 +6,7 @@ import numpy as np
 def evaluate_model(trained_model, data_loader):
     net = CrowdCounter()
     network.load_net(trained_model, net)
-    net.cuda()
+#    net.cuda()
     net.eval()
     mae = 0.0
     mse = 0.0
