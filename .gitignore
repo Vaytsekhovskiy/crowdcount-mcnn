@@ -1,6 +1,7 @@
 *.pyc
 output
 data
+.idea
 final_models
 saved_models
 *_epochs.py
