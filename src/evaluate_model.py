@@ -13,12 +13,16 @@ def evaluate_model(trained_model, data_loader):
     for blob in data_loader:                        
         im_data = blob['data']
         gt_data = blob['gt_density']
+        # get predicted density_map
         density_map = net(im_data, gt_data)
+        # torch tensor -> numpy array
         density_map = density_map.data.cpu().numpy()
+        # number of people from ground_truth density_map
         gt_count = np.sum(gt_data)
+        # number of people from predicted density_map
         et_count = np.sum(density_map)
         mae += abs(gt_count-et_count)
-        mse += ((gt_count-et_count)*(gt_count-et_count))        
+        mse += ((gt_count-et_count)*(gt_count-et_count))
     mae = mae/data_loader.get_num_samples()
-    mse = np.sqrt(mse/data_loader.get_num_samples())
+    mse = np.sqrt(mse/data_loader.get_num_samples()) # -> RMSE
     return mae,mse

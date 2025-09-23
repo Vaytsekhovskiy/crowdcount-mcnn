@@ -32,13 +32,14 @@ net = CrowdCounter()
 trained_model = os.path.join(model_path)
 network.load_net(trained_model, net) # The trained weight of the model is loaded.
 #net.cuda()
-net.eval()
+net.eval() # switch model to evaluation (testing) mode
 mae = 0.0
 mse = 0.0
 
 #load test data
 # data_path - test images
 # gt_path - csv file, containing ground_truth density maps
+# shuffle - the data is shuffled randomly before each training epoch.
 # gt_downsample - downsampling density map to save memory
 # pre_load - load all data to memory
 data_loader = ImageDataLoader(data_path, gt_path, shuffle=False, gt_downsample=True, pre_load=True)
